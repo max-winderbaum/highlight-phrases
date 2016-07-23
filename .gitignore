@@ -1,0 +1,6 @@
+# Editor Files
+.idea
+*.iml
+
+# Package Control Files
+/node_modules
