@@ -5,17 +5,17 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = { document: 'abc' };
-		this.setDocument = this.setDocument.bind(this);
+		this.handleTextChange = this.handleTextChange.bind(this);
 	}
 
-	setDocument(event) {
+	handleTextChange(event) {
 		this.setState({ document: event.target.value });
 	}
 
 	render() {
 		return (
 			<div className="App">
-				<textarea value={this.state.document} onChange={this.setDocument}></textarea>
+				<textarea value={this.state.document} onChange={this.handleTextChange}></textarea>
 				<Document value={this.state.document}/>
 			</div>
 		);

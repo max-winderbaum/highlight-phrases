@@ -4,3 +4,6 @@
 
 # Package Control Files
 /node_modules
+
+# Build Artifacts
+/build
