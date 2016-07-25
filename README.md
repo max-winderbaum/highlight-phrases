@@ -65,3 +65,4 @@ This control should also meet the following additional requirements:
 ### Limitations
 ##### Sentence Endings
 ##### Multiple Spaces
+##### Overlapping Same-Color Phrases

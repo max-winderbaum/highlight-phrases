@@ -1,32 +1,19 @@
 import React, {Component} from 'react';
-import findPhrases from './findPhrases';
+import PhraseState from './PhraseState';
+import _ from 'lodash';
 
 import './document.scss';
 
 class Document extends Component {
 	constructor(props) {
 		super(props);
-		const phrases = findPhrases(props.value);
-		const words = phrases.words;
-		const actions = phrases.actions;
-
-		this.state = {
-			words,
-			actions,
-			document: props.value,
-		};
+		this.phraseState = new PhraseState(props.value);
+		this.state = this.phraseState.getState();
 	}
 
 	componentWillReceiveProps(props) {
-		const phrases = findPhrases(props.value);
-		const words = phrases.words;
-		const actions = phrases.actions;
-
-		this.setState({
-			words,
-			actions,
-			document: props.value,
-		});
+		this.phraseState.setDocument(props.value);
+		this.setState(this.phraseState.getState());
 	}
 
 	render() {
@@ -34,12 +21,14 @@ class Document extends Component {
 		const words = this.state.words;
 		const actions = this.state.actions;
 		words.forEach(function (word, index) {
+			const handleMouseOver = _.curryRight(actions.handleMouseOver)(index);
+			const handleMouseOut = _.curryRight(actions.handleMouseOut)(index);
 			wordElements.push(
 				<span
 					key={word.id}
 					className={word.classes.join(' ')}
-					onMouseOver={actions.handleMouseOver(index)}
-					onMouseOut={actions.handleMouseOut(index)}>
+					onMouseOver={handleMouseOver}
+					onMouseOut={handleMouseOut}>
 					{word.value}
 				</span>
 			);
