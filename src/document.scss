@@ -11,9 +11,7 @@ div.Document {
 	line-height: 40px;
 
 	span {
-		padding: 6px;
-		padding-right: 9px;
-		margin-right: -6px;
+		padding: 6px 4px;
 		position: relative;
 		line-height: 20px;
 	}
@@ -30,6 +28,10 @@ div.Document {
 		span.highlight.#{$className}-mid {
 			background: #{$color};
 			border-radius: 0;
+			padding-right: 10px;
+			padding-left: 10px;
+			margin-right: -6px;
+			margine-left: -6px;
 		}
 
 		span.highlight.#{$className}-right {
@@ -37,11 +39,9 @@ div.Document {
 			background: #{$color};
 			border-top-right-radius: 6px;
 			border-bottom-right-radius: 6px;
-			padding-right: 6px;
-			margin-right: -3px;
 		}
 
-		.last + .#{$color}-last {
+		span.highlight.last + .#{$color}-last {
 			z-index: 2;
 		}
 
