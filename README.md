@@ -59,3 +59,9 @@ This control should also meet the following additional requirements:
 
     very unlikely to leave
     will deliver new
+
+## The Solution
+
+### Limitations
+##### Sentence Endings
+##### Multiple Spaces

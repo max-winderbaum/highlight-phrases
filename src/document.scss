@@ -6,54 +6,68 @@ $colors: (
 				('red', #f8a3a2),
 );
 
-span {
-	padding: 4px;
-	padding-right: 6px;
-	margin-right: -4px;
-	position: relative;
-}
+div.Document {
+	word-wrap: break-word;
+	line-height: 40px;
 
-@each $className, $color in $colors {
-	.#{$className}-left {
-		background: #{$color};
-		border-top-left-radius: 4px;
-		border-bottom-left-radius: 4px;
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
+	span {
+		padding: 6px;
+		padding-right: 9px;
+		margin-right: -6px;
+		position: relative;
+		line-height: 20px;
 	}
 
-	.#{$className}-mid {
-		background: #{$color};
-		border-radius: 0;
-	}
+	@each $className, $color in $colors {
+		span.highlight.#{$className}-left {
+			background: #{$color};
+			border-top-left-radius: 6px;
+			border-bottom-left-radius: 6px;
+			border-top-right-radius: 0;
+			border-bottom-right-radius: 0;
+		}
 
-	.#{$className}-right {
-		z-index: 2;
-		background: #{$color};
-		border-top-right-radius: 4px;
-		border-bottom-right-radius: 4px;
-		padding-right: 4px;
-		margin-right: -2px;
-	}
+		span.highlight.#{$className}-mid {
+			background: #{$color};
+			border-radius: 0;
+		}
 
-	.#{$className}-left-active {
-		background: #{$color} !important;
-		border-top-left-radius: 4px !important;
-		border-bottom-left-radius: 4px !important;
-		border-top-right-radius: 0 !important;
-		border-bottom-right-radius: 0 !important;
-	}
+		span.highlight.#{$className}-right {
+			z-index: 2;
+			background: #{$color};
+			border-top-right-radius: 6px;
+			border-bottom-right-radius: 6px;
+			padding-right: 6px;
+			margin-right: -3px;
+		}
 
-	.#{$className}-mid-active {
-		background: #{$color} !important;
-		border-radius: 0 !important;
-	}
+		.last + .#{$color}-last {
+			z-index: 2;
+		}
 
-	.#{$className}-right-active {
-		background: #{$color} !important;
-		border-top-right-radius: 4px !important;
-		border-bottom-right-radius: 4px !important;
-		padding-right: 4px !important;
-		margin-right: -2px !important;
+		span.highlight.#{$className}-left-active {
+			background: #{$color} !important;
+			border-top-left-radius: 6px !important;
+			border-bottom-left-radius: 6px !important;
+			border-top-right-radius: 0 !important;
+			border-bottom-right-radius: 0 !important;
+		}
+
+		span.highlight.#{$className}-mid-active {
+			background: #{$color} !important;
+			border-radius: 0 !important;
+		}
+
+		span.highlight.#{$className}-right-active {
+			background: #{$color} !important;
+			border-top-right-radius: 6px !important;
+			border-bottom-right-radius: 6px !important;
+			padding-right: 6px !important;
+			margin-right: -3px !important;
+		}
+
+		.last + .#{$color}-last-active {
+			z-index: 2 !important;
+		}
 	}
 }

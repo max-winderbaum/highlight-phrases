@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import Document from './Document';
 
+import './app.scss';
+
 class App extends Component {
 	constructor() {
 		super();
-		this.state = { document: 'abc' };
+		this.state = { document: 'We expect our candidates to be action-oriented, aggressive and have creative ideas for' +
+		' our team. You will deliver new technology and groundbreaking designs.' };
 		this.handleTextChange = this.handleTextChange.bind(this);
 	}
 
