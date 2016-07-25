@@ -49,7 +49,10 @@ function getMatches(document) {
 
 function getPhraseMatches(document, phrase, color) {
 	const midWordRegex = '[^\\w\\s.!?]*[\\s]+[\\W]*';
-	const afterPhraseRegex = '[^\\w\\s]*';
+	const afterPhraseRegex = '[^\\s\\w]*(?=\\s)';
+	if( phrase === 'action-oriented') {
+		console.log(phrase.split(' ').join(midWordRegex) + afterPhraseRegex);
+	}
 	const phraseRegex = new RegExp(phrase.split(' ').join(midWordRegex) + afterPhraseRegex, 'gi');
 	const matches = [];
 	let match = phraseRegex.exec(document);
