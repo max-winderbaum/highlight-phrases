@@ -1,6 +1,9 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro);
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
-  color: red;
+	display: flex;
+	flex-wrap: wrap;
+	padding: 20px;
+	font-family: 'Source Sans Pro', Calibri, sans-serif;
+	font-weight: normal;
 }

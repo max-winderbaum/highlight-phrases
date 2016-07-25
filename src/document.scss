@@ -1,0 +1,59 @@
+$colors: (
+				('gray', #e8e8e8),
+				('purple', #e6b3f9),
+				('blue', #91d9f1),
+				('green', #aeee72),
+				('red', #f8a3a2),
+);
+
+span {
+	padding: 4px;
+	padding-right: 6px;
+	margin-right: -4px;
+	position: relative;
+}
+
+@each $className, $color in $colors {
+	.#{$className}-left {
+		background: #{$color};
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	.#{$className}-mid {
+		background: #{$color};
+		border-radius: 0;
+	}
+
+	.#{$className}-right {
+		z-index: 2;
+		background: #{$color};
+		border-top-right-radius: 4px;
+		border-bottom-right-radius: 4px;
+		padding-right: 4px;
+		margin-right: -2px;
+	}
+
+	.#{$className}-left-active {
+		background: #{$color} !important;
+		border-top-left-radius: 4px !important;
+		border-bottom-left-radius: 4px !important;
+		border-top-right-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
+	}
+
+	.#{$className}-mid-active {
+		background: #{$color} !important;
+		border-radius: 0 !important;
+	}
+
+	.#{$className}-right-active {
+		background: #{$color} !important;
+		border-top-right-radius: 4px !important;
+		border-bottom-right-radius: 4px !important;
+		padding-right: 4px !important;
+		margin-right: -2px !important;
+	}
+}
