@@ -44,9 +44,9 @@ class PhraseState {
 	}
 
 	focusWord(wordIndex) {
-		this.focusedWordIndex = wordIndex;
 		const focusedWord = this.state.words[wordIndex];
 		if (focusedWord.colors.length === 1) {
+			this.focusedWordIndex = wordIndex;
 			this.focusedWordColor = focusedWord.colors[0];
 		}
 
