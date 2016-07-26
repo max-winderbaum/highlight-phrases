@@ -40,6 +40,7 @@ div.Document {
 			&.#{$name}-left {
 				z-index: $zIndex;
 				background: #{$hex};
+				border: 1px solid #{$hex};
 				border-top-left-radius: 6px;
 				border-bottom-left-radius: 6px;
 			}
@@ -47,12 +48,14 @@ div.Document {
 			&.#{$name}-mid {
 				z-index: $zIndex;
 				background: #{$hex};
+				border: 1px solid #{$hex};
 				border-radius: 0;
 			}
 
 			&.#{$name}-right {
 				z-index: $zIndex !important;
 				background: #{$hex};
+				border: 1px solid #{$hex};
 				border-top-right-radius: 6px;
 				border-bottom-right-radius: 6px;
 			}
@@ -60,6 +63,7 @@ div.Document {
 			&.#{$name}-left-active {
 				z-index: $activeZIndex !important;
 				background: darken($hex, 10%) !important;
+				border: 1px solid darken($hex, 10%) !important;
 				color: white !important;
 				border-top-left-radius: 6px !important;
 				border-bottom-left-radius: 6px !important;
@@ -68,6 +72,7 @@ div.Document {
 			&.#{$name}-mid-active {
 				z-index: $activeZIndex !important;
 				background: darken($hex, 10%) !important;
+				border: 1px solid darken($hex, 10%) !important;
 				color: white !important;
 				border-radius: 0 !important;
 			}
@@ -75,6 +80,7 @@ div.Document {
 			&.#{$name}-right-active {
 				z-index: $activeZIndex !important;
 				background: darken($hex, 10%) !important;
+				border: 1px solid darken($hex, 10%) !important;
 				color: white !important;
 				border-top-right-radius: 6px !important;
 				border-bottom-right-radius: 6px !important;
