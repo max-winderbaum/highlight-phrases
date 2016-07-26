@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PhraseState from './PhraseState';
-import _ from 'lodash';
 
 import './document.scss';
 
@@ -23,8 +22,8 @@ class Document extends Component {
 		const words = this.state.words;
 		const actions = this.state.actions;
 		words.forEach(function (word, index) {
-			const handleMouseOver = _.curryRight(actions.handleMouseOver)(index);
-			const handleMouseOut = _.curryRight(actions.handleMouseOut)(index);
+			const handleMouseOver = () => actions.handleMouseOver(index);
+			const handleMouseOut = () => actions.handleMouseOut(index);
 			wordElements.push(
 				<span
 					key={word.id}

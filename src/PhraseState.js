@@ -20,8 +20,8 @@ class PhraseState {
 		this.state = {
 			words: decoratedWords,
 			actions: {
-				handleMouseOver: this.handleMouseOver.bind(this),
-				handleMouseOut: this.handleMouseOut.bind(this),
+				handleMouseOver: this.focusWord.bind(this),
+				handleMouseOut: this.unfocus.bind(this),
 			},
 			document: this.document,
 		};
@@ -208,14 +208,6 @@ class PhraseState {
 		}
 
 		return decoratedWords;
-	}
-
-	handleMouseOver(event, notUsed, reactEvent, wordIndex) {
-		this.focusWord(wordIndex);
-	}
-
-	handleMouseOut(event, notUsed, reactEvent, wordIndex) {
-		this.unfocus();
 	}
 }
 
