@@ -88,7 +88,15 @@ This is the component that does the rendering of the elements. It relies on Phra
 #### PhraseState
 This is an observable state machine that creates an array of what I call "decorated" words - objects with all the metadata needed to build their respective word elements in the DOM. PhraseState has actions that are called when the document changes, on mouse over, and on mouse out. These actions modify the internal state and then notify all observers. This makes PhraseState flexible - not only can there be multiple PhraseStates going at one time, but multiple components can be notified when a single instance's state changes.
 
-Given more time I'd probably break this machine into several modules.
+##### Steps to Compute the State
+State computation is triggered when the document changes, a word is focused, or a word is unfocused.
+
+1. Call getWords() to split the document into an array of words, maintaining the starting character index of each word.
+2. Call getMatches() which uses regexp to find all occurrences of each phrase in the document, maintaining the color and starting character index of each phrase.
+3. Call decorate() which uses the words and phrase matches to create an array of decorated words. Decorated words contain information about which classes each word should contain.
+4. Set the decorated words in the state and notify all observers of the new state via callbacks.
+
+Given more time I'd probably break this machine into several modules, centered around getWords, getMatches, and decorate.
 
 #### document.scss
 This is the core of the sass necessary to make the classes come to life. There are some clever tricks involved here - including implicitly declaring the order of color specificity through the order of the $colors list.
