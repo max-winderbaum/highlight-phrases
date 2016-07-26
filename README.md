@@ -64,5 +64,7 @@ This control should also meet the following additional requirements:
 
 ### Limitations
 ##### Sentence Endings
+Without great NLP I would not be able to detect true sentence endings, which would break phrases. Instead I just chose to omit a phrase if it was broken by one of the characters (.!?) in the middle.
 ##### Multiple Spaces
-##### Overlapping Same-Color Phrases
+##### Odd Containment Issues
+With the interactions I've chosen to support, there isn't support for showing a lower priority phrase that is contained within a higher-priority phrase. Additionally, There's no visual difference when one phrase contains another of the same color.

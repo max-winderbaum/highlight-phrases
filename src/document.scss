@@ -8,7 +8,7 @@ $colors: (
 );
 
 $zIndex: 0;
-$topZIndex: 2147483647;
+$activeZIndex: 10000;
 
 div.Document {
 	word-wrap: break-word;
@@ -20,7 +20,8 @@ div.Document {
 	}
 
 	span.highlight {
-		transition: background-color 0.2s linear;
+		transition: all 0.1s linear;
+		cursor: pointer;
 
 		&.extra-right {
 			padding-right: 6px;
@@ -34,6 +35,7 @@ div.Document {
 
 		@each $name, $hex in $colors {
 			$zIndex: $zIndex + 1;
+			$activeZIndex: $activeZIndex + 1;
 
 			&.#{$name}-left {
 				z-index: $zIndex;
@@ -58,8 +60,9 @@ div.Document {
 			}
 
 			&.#{$name}-left-active {
-				z-index: $topZIndex !important;
-				background: #{$hex} !important;
+				z-index: $activeZIndex !important;
+				background: darken($hex, 10%) !important;
+				color: white !important;
 				border-top-left-radius: 6px !important;
 				border-bottom-left-radius: 6px !important;
 				border-top-right-radius: 0 !important;
@@ -67,14 +70,16 @@ div.Document {
 			}
 
 			&.#{$name}-mid-active {
-				z-index: $topZIndex !important;
-				background: #{$hex} !important;
+				z-index: $activeZIndex !important;
+				background: darken($hex, 10%) !important;
+				color: white !important;
 				border-radius: 0 !important;
 			}
 
 			&.#{$name}-right-active {
-				z-index: $topZIndex !important;
-				background: #{$hex} !important;
+				z-index: $activeZIndex !important;
+				background: darken($hex, 10%) !important;
+				color: white !important;
 				border-top-right-radius: 6px !important;
 				border-bottom-right-radius: 6px !important;
 				border-top-left-radius: 0 !important;
@@ -82,8 +87,9 @@ div.Document {
 			}
 
 			&.#{$name}-right-active.#{$name}-left-active {
-				z-index: $topZIndex !important;
-				background: #{$hex} !important;
+				z-index: $activeZIndex !important;
+				background: darken($hex, 10%) !important;
+				color: white !important;
 				border-top-right-radius: 6px !important;
 				border-bottom-right-radius: 6px !important;
 				border-top-left-radius: 6px !important;

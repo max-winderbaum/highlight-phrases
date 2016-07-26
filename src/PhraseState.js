@@ -44,18 +44,12 @@ class PhraseState {
 	}
 
 	focusWord(wordIndex) {
-		const focusedWord = this.state.words[wordIndex];
-		if (focusedWord.colors.length === 1) {
-			this.focusedWordIndex = wordIndex;
-			this.focusedWordColor = focusedWord.colors[0];
-		}
-
+		this.focusedWordIndex = wordIndex;
 		this.computeState();
 	}
 
 	unfocus() {
 		this.focusedWordIndex = undefined;
-		this.focusedWordColor = undefined;
 		this.computeState();
 	}
 
@@ -132,7 +126,7 @@ class PhraseState {
 			});
 		});
 
-		// Determine extra-right and extra-left classes
+		// Determine extra-right and extra-left
 		decoratedWords.forEach((word, index) => {
 			const prevWord = decoratedWords[index - 1];
 			const nextWord = decoratedWords[index + 1];
