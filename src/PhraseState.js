@@ -66,7 +66,7 @@ class PhraseState {
 		while (match != null) {
 			words.push({
 				value: match[0].replace(/\s*$/, '').replace('-', '‑'), // Remove ending spaces
-				index: match.index,
+				characterIndex: match.index,
 			});
 			match = wordBeginningRegex.exec(this.document);
 		}
@@ -101,6 +101,7 @@ class PhraseState {
 		while (match != null) {
 			match.color = color;
 			match.value = match[0];
+			match.characterIndex = match.index;
 			matches.push(match);
 			match = phraseRegex.exec(this.document);
 		}
@@ -115,18 +116,35 @@ class PhraseState {
 			word.id = index;
 			word.classMap = {};
 			word.colors = [];
-			word.classes = ['highlight'];
+			word.classes = [];
 			word.phraseWords = [];
 		});
 
 		decoratedWords.forEach((word, index) => {
 			phraseMatches.forEach((phraseMatch) => {
-				if (phraseMatch.index === word.index) {
+				if (phraseMatch.characterIndex === word.characterIndex) {
 					decoratedWords = this.decoratePhrase(decoratedWords, index, phraseMatch);
 				}
 			});
+		});
 
-			// The classmap for the word is filled in completely. Let's convert it to an array!
+		for(let i=0; i<decoratedWords.length; i++) {
+			const word = decoratedWords[i];
+
+			const prevWord = decoratedWords[i-1];
+			const nextWord = decoratedWords[i+1];
+
+			if (!word.classMap.right && word.classMap.highlight && nextWord && nextWord.classMap.left) {
+				word.classMap['extra-right'] = true;
+			}
+
+			if (!word.classMap.left && word.classMap.highlight && prevWord && prevWord.classMap.right) {
+				word.classMap['extra-left'] = true;
+			}
+
+		};
+
+		decoratedWords.forEach((word, index) => {
 			for (const key in decoratedWords[index].classMap) {
 				if (decoratedWords[index].classMap.hasOwnProperty(key)) {
 					decoratedWords[index].classes.push(key);
@@ -142,36 +160,39 @@ class PhraseState {
 		const phraseLength = phraseMatch.value.split(/\s+/g).length;
 		const endIndex = startIndex + phraseLength + (-1);
 
-		const focusPhrase = this.focusedWordIndex >= startIndex && this.focusedWordIndex <= endIndex;
+		const isPhraseFocused = this.focusedWordIndex >= startIndex && this.focusedWordIndex <= endIndex;
 
 		for (let i = startIndex; i <= endIndex; i++) {
 			const currentWord = decoratedWords[i];
 
-			let isEnd = false;
+			currentWord.classMap['highlight'] = true;
+
+			let isStartOrEnd = false;
 
 			if (i === startIndex) {
-				isEnd = true;
-				currentWord.classMap[phraseMatch.color + '-left'] = true;
-				if (focusPhrase) {
+				isStartOrEnd = true;
+				if (isPhraseFocused) {
 					currentWord.classMap[phraseMatch.color + '-left-active'] = true;
 				}
+				currentWord.classMap[phraseMatch.color + '-left'] = true;
 				currentWord.classMap['left'] = true;
 			}
 
 			if (i === endIndex) {
-				isEnd = true;
-				if (focusPhrase) {
+				isStartOrEnd = true;
+				if (isPhraseFocused) {
 					currentWord.classMap[phraseMatch.color + '-right-active'] = true;
 				}
 				currentWord.classMap[phraseMatch.color + '-right'] = true;
 				currentWord.classMap['right'] = true;
 			}
 
-			if (!isEnd) {
-				if (focusPhrase) {
+			if (!isStartOrEnd) {
+				if (isPhraseFocused) {
 					currentWord.classMap[phraseMatch.color + '-mid-active'] = true;
 				}
 				currentWord.classMap[phraseMatch.color + '-mid'] = true;
+				currentWord.classMap['mid'] = true;
 			}
 
 			currentWord.colors.push(phraseMatch.color);

@@ -1,3 +1,4 @@
+// Ordered in ascending priority
 $colors: (
 				('gray', #e8e8e8),
 				('purple', #e6b3f9),
@@ -6,6 +7,9 @@ $colors: (
 				('red', #f8a3a2),
 );
 
+$zIndex: 0;
+$topZIndex: 2147483647;
+
 div.Document {
 	word-wrap: break-word;
 	line-height: 40px;
@@ -13,58 +17,78 @@ div.Document {
 	span {
 		padding: 6px 4px;
 		position: relative;
-		line-height: 20px;
 	}
 
-	@each $className, $color in $colors {
-		span.highlight.#{$className}-left {
-			background: #{$color};
-			border-top-left-radius: 6px;
-			border-bottom-left-radius: 6px;
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
+	span.highlight {
+		transition: background-color 0.2s linear;
+
+		&.extra-right {
+			padding-right: 9px;
+			margin-right: -3px;
 		}
 
-		span.highlight.#{$className}-mid {
-			background: #{$color};
-			border-radius: 0;
-			padding-right: 10px;
-			padding-left: 10px;
-			margin-right: -6px;
+		&.extra-left {
+			padding-left: 9px;
+			margin-left: -3px;
 		}
 
-		span.highlight.#{$className}-right {
-			z-index: 3;
-			background: #{$color};
-			border-top-right-radius: 6px;
-			border-bottom-right-radius: 6px;
-		}
+		@each $name, $hex in $colors {
+			$zIndex: $zIndex + 1;
 
-		span.highlight.last + .#{$color}-last {
-			z-index: 2;
-		}
+			&.#{$name}-left {
+				z-index: $zIndex;
+				background: #{$hex};
+				border-top-left-radius: 6px;
+				border-bottom-left-radius: 6px;
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
 
-		span.highlight.#{$className}-left-active {
-			background: #{$color} !important;
-			border-top-left-radius: 6px !important;
-			border-bottom-left-radius: 6px !important;
-			border-top-right-radius: 0 !important;
-			border-bottom-right-radius: 0 !important;
-		}
+			&.#{$name}-mid {
+				z-index: $zIndex;
+				background: #{$hex};
+				border-radius: 0;
+			}
 
-		span.highlight.#{$className}-mid-active {
-			background: #{$color} !important;
-			border-radius: 0 !important;
-		}
+			&.#{$name}-right {
+				z-index: $zIndex !important;
+				background: #{$hex};
+				border-top-right-radius: 6px;
+				border-bottom-right-radius: 6px;
+			}
 
-		span.highlight.#{$className}-right-active {
-			background: #{$color} !important;
-			border-top-right-radius: 6px !important;
-			border-bottom-right-radius: 6px !important;
-		}
+			&.#{$name}-left-active {
+				z-index: $topZIndex !important;
+				background: #{$hex} !important;
+				border-top-left-radius: 6px !important;
+				border-bottom-left-radius: 6px !important;
+				border-top-right-radius: 0 !important;
+				border-bottom-right-radius: 0 !important;
+			}
 
-		.last + .#{$color}-last-active {
-			z-index: 2 !important;
+			&.#{$name}-mid-active {
+				z-index: $topZIndex !important;
+				background: #{$hex} !important;
+				border-radius: 0 !important;
+			}
+
+			&.#{$name}-right-active {
+				z-index: $topZIndex !important;
+				background: #{$hex} !important;
+				border-top-right-radius: 6px !important;
+				border-bottom-right-radius: 6px !important;
+				border-top-left-radius: 0 !important;
+				border-bottom-left-radius: 0 !important;
+			}
+
+			&.#{$name}-right-active.#{$name}-left-active {
+				z-index: $topZIndex !important;
+				background: #{$hex} !important;
+				border-top-right-radius: 6px !important;
+				border-bottom-right-radius: 6px !important;
+				border-top-left-radius: 6px !important;
+				border-bottom-left-radius: 6px !important;
+			}
 		}
 	}
 }

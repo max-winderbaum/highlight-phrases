@@ -12,14 +12,15 @@ const phrases = {
 		'love',
 		'new technology',
 	],
-	blue: [
+	purple: [
 		'an adorable puppy',
 		'aggressive',
 		'arm',
 		'very unlikely',
 		'we do not', // TODO: Testing. Remove this!
+		'we have new technology stuff',
 	],
-	purple: [
+	blue: [
 		'do not cross',
 		'log file',
 		'our team',

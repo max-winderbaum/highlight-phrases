@@ -7,7 +7,8 @@ class App extends Component {
 	constructor() {
 		super();
 		this.state = { document: 'We expect our candidates to be action-oriented, aggressive and have creative ideas for' +
-		' our team. You will deliver new technology and groundbreaking designs. We do not cross the street for anybody!' };
+		' our team. You will deliver new technology and groundbreaking designs. We do not cross the street for anybody!' +
+		' We have new technology stuff!' };
 		this.handleTextChange = this.handleTextChange.bind(this);
 	}
 
