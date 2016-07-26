@@ -42,8 +42,6 @@ div.Document {
 				background: #{$hex};
 				border-top-left-radius: 6px;
 				border-bottom-left-radius: 6px;
-				border-top-right-radius: 0;
-				border-bottom-right-radius: 0;
 			}
 
 			&.#{$name}-mid {
@@ -65,8 +63,6 @@ div.Document {
 				color: white !important;
 				border-top-left-radius: 6px !important;
 				border-bottom-left-radius: 6px !important;
-				border-top-right-radius: 0 !important;
-				border-bottom-right-radius: 0 !important;
 			}
 
 			&.#{$name}-mid-active {
@@ -82,18 +78,6 @@ div.Document {
 				color: white !important;
 				border-top-right-radius: 6px !important;
 				border-bottom-right-radius: 6px !important;
-				border-top-left-radius: 0 !important;
-				border-bottom-left-radius: 0 !important;
-			}
-
-			&.#{$name}-right-active.#{$name}-left-active {
-				z-index: $activeZIndex !important;
-				background: darken($hex, 10%) !important;
-				color: white !important;
-				border-top-right-radius: 6px !important;
-				border-bottom-right-radius: 6px !important;
-				border-top-left-radius: 6px !important;
-				border-bottom-left-radius: 6px !important;
 			}
 		}
 	}
