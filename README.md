@@ -1,6 +1,12 @@
 # Highlight Phrases
 Highlight various phrase groups with different colors
 
+## Quickstart
+Node.js is the only global dependency for this project. Please install node >= 6.3 with npm.
+
+    npm install
+    npm start
+
 ## The Problem
 Write a reusable control that, given an empty div and the categorized lists of phrases below, can render text passed in programmatically such that any examples of the phrases are highlighted like so:
 
