@@ -93,7 +93,7 @@ class PhraseState {
 
 	getPhraseMatches(phrase, color) {
 		const midWordRegex = '[^\\w\\s.!?]*[\\s]+[\\W]*';
-		const afterPhraseRegex = '[^\\s\\w]*(?=[\\s]*)';
+		const afterPhraseRegex = '[^\\w\\s]*(?=$|\\s)+';
 		const phraseRegex = new RegExp(phrase.split(' ').join(midWordRegex) + afterPhraseRegex, 'gi');
 		const matches = [];
 		let match = phraseRegex.exec(this.document);
@@ -112,6 +112,7 @@ class PhraseState {
 	decorate(words, phraseMatches) {
 		let decoratedWords = _.cloneDeep(words);
 
+		// Initialize word decorations
 		decoratedWords.forEach((word, index) => {
 			word.id = index;
 			word.classMap = {};
@@ -120,34 +121,43 @@ class PhraseState {
 			word.phraseWords = [];
 		});
 
+		// Decorate each phrase
 		decoratedWords.forEach((word, index) => {
 			phraseMatches.forEach((phraseMatch) => {
+
+				// The matched phrase starts at this word
 				if (phraseMatch.characterIndex === word.characterIndex) {
 					decoratedWords = this.decoratePhrase(decoratedWords, index, phraseMatch);
 				}
 			});
 		});
 
-		for(let i=0; i<decoratedWords.length; i++) {
-			const word = decoratedWords[i];
+		// Determine extra-right and extra-left classes
+		decoratedWords.forEach((word, index) => {
+			const prevWord = decoratedWords[index - 1];
+			const nextWord = decoratedWords[index + 1];
 
-			const prevWord = decoratedWords[i-1];
-			const nextWord = decoratedWords[i+1];
-
-			if (!word.classMap.right && word.classMap.highlight && nextWord && nextWord.classMap.left) {
+			if (!word.classMap.right &&
+				word.classMap.highlight &&
+				(nextWord && nextWord.classMap.left)
+			) {
 				word.classMap['extra-right'] = true;
 			}
 
-			if (!word.classMap.left && word.classMap.highlight && prevWord && prevWord.classMap.right) {
+			if (!word.classMap.left &&
+				word.classMap.highlight &&
+				(prevWord && prevWord.classMap.right)
+			) {
 				word.classMap['extra-left'] = true;
 			}
 
-		};
+		});
 
-		decoratedWords.forEach((word, index) => {
-			for (const key in decoratedWords[index].classMap) {
-				if (decoratedWords[index].classMap.hasOwnProperty(key)) {
-					decoratedWords[index].classes.push(key);
+		// Fill in classes array from classMap
+		decoratedWords.forEach((word) => {
+			for (const key in word.classMap) {
+				if (word.classMap.hasOwnProperty(key)) {
+					word.classes.push(key);
 				}
 			}
 		});
@@ -197,7 +207,6 @@ class PhraseState {
 
 			currentWord.colors.push(phraseMatch.color);
 		}
-
 
 		return decoratedWords;
 	}
