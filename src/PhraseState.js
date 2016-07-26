@@ -39,7 +39,7 @@ class PhraseState {
 
 	notifyListeners() {
 		this.listeners.forEach((callback) => {
-			callback();
+			callback(this.state);
 		});
 	}
 
@@ -55,6 +55,8 @@ class PhraseState {
 
 	getWords() {
 		const words = [];
+
+		// One or more non-space characters followed by any number of space characters
 		const wordBeginningRegex = /[^\s]+\s*/g;
 		let match = wordBeginningRegex.exec(this.document);
 		while (match != null) {
@@ -88,7 +90,11 @@ class PhraseState {
 	}
 
 	getPhraseMatches(phrase, color) {
-		const midWordRegex = '[^\\w\\s.!?]*[\\s]+[\\W]*';
+
+		// Not a sentence ending with spaces
+		const midWordRegex = '[^\\w\\s.!?]*[\\s]+';
+
+		// Any number of non-word, non-space characters as long as there's a space or line ending after
 		const afterPhraseRegex = '[^\\w\\s]*(?=$|\\s)+';
 		const phraseRegex = new RegExp(phrase.split(' ').join(midWordRegex) + afterPhraseRegex, 'gi');
 		const matches = [];
@@ -112,13 +118,11 @@ class PhraseState {
 		decoratedWords.forEach((word, index) => {
 			word.id = index;
 			word.classMap = {};
-			word.colors = [];
 			word.classes = [];
-			word.phraseWords = [];
 		});
 
 		// Decorate each phrase
-		decoratedWords.forEach((word, index) => {
+		words.forEach((word, index) => {
 			phraseMatches.forEach((phraseMatch) => {
 
 				// The matched phrase starts at this word
@@ -166,16 +170,17 @@ class PhraseState {
 		const phraseLength = phraseMatch.value.split(/\s+/g).length;
 		const endIndex = startIndex + phraseLength + (-1);
 
-		const isPhraseFocused = this.focusedWordIndex >= startIndex && this.focusedWordIndex <= endIndex;
+		const isPhraseFocused = this.focusedWordIndex >= startIndex &&
+			this.focusedWordIndex <= endIndex;
 
-		for (let i = startIndex; i <= endIndex; i++) {
-			const currentWord = decoratedWords[i];
+		for (let index = startIndex; index <= endIndex; index++) {
+			const currentWord = decoratedWords[index];
 
 			currentWord.classMap['highlight'] = true;
 
 			let isStartOrEnd = false;
 
-			if (i === startIndex) {
+			if (index === startIndex) {
 				isStartOrEnd = true;
 				if (isPhraseFocused) {
 					currentWord.classMap[phraseMatch.color + '-left-active'] = true;
@@ -184,7 +189,7 @@ class PhraseState {
 				currentWord.classMap['left'] = true;
 			}
 
-			if (i === endIndex) {
+			if (index === endIndex) {
 				isStartOrEnd = true;
 				if (isPhraseFocused) {
 					currentWord.classMap[phraseMatch.color + '-right-active'] = true;
@@ -200,8 +205,6 @@ class PhraseState {
 				currentWord.classMap[phraseMatch.color + '-mid'] = true;
 				currentWord.classMap['mid'] = true;
 			}
-
-			currentWord.colors.push(phraseMatch.color);
 		}
 
 		return decoratedWords;

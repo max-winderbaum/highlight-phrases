@@ -95,8 +95,5 @@ This is the core of the sass necessary to make the classes come to life. There a
 ##### Sentence Endings
 Without great NLP I would not be able to detect true sentence endings, which would break phrases. Instead I just chose to omit a phrase if it was broken by one of the characters (.!?) in the middle.
 
-##### Multiple Spaces
-Right now I don't support multiple spaces in between words. I could support this by adding multiple HTML space characters into the words array generated within PhraseState.js
-
 ##### Odd Containment Issues
 With the interactions I've chosen to support, there isn't support for showing a lower priority phrase that is contained within a higher-priority phrase. Additionally, There's no visual difference when one phrase contains another of the same color.
