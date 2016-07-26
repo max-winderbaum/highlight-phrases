@@ -1,5 +1,5 @@
 # Highlight Phrases
-Highlight various phrase groups with different colors
+Highlight various phrase groups with different colors - http://textio.maxwinderbaum.com/
 
 ## Quickstart
 Node.js is the only global dependency for this project. Please install node >= 6.3 with npm.
