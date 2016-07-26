@@ -3,30 +3,60 @@ import _ from 'lodash';
 
 class PhraseState {
 	constructor(initialDocument) {
-		this.document = initialDocument;
+		this.listeners = [];
+		this.setDocument(initialDocument);
 	}
 
 	setDocument(newDocument) {
 		this.document = newDocument;
+		this.computeState();
 	}
 
-	getState() {
-		if (!this.document) {
-			throw new Error('Please set a document first!');
-		}
-
+	computeState() {
 		const words = this.getWords();
 		const phraseMatches = this.getMatches();
 		const decoratedWords = this.decorate(words, phraseMatches);
 
-		return {
+		this.state = {
 			words: decoratedWords,
 			actions: {
-				handleMouseOver: function() {},
-				handleMouseOut: function() {},
+				handleMouseOver: this.handleMouseOver.bind(this),
+				handleMouseOut: this.handleMouseOut.bind(this),
 			},
 			document: this.document,
 		};
+
+		this.notifyListeners();
+	}
+
+	getState() {
+		return this.state;
+	}
+
+	onChange(callback) {
+		this.listeners.push(callback);
+	}
+
+	notifyListeners() {
+		this.listeners.forEach((callback) => {
+			callback();
+		});
+	}
+
+	focusWord(wordIndex) {
+		this.focusedWordIndex = wordIndex;
+		const focusedWord = this.state.words[wordIndex];
+		if (focusedWord.colors.length === 1) {
+			this.focusedWordColor = focusedWord.colors[0];
+		}
+
+		this.computeState();
+	}
+
+	unfocus() {
+		this.focusedWordIndex = undefined;
+		this.focusedWordColor = undefined;
+		this.computeState();
 	}
 
 	getWords() {
@@ -63,10 +93,7 @@ class PhraseState {
 
 	getPhraseMatches(phrase, color) {
 		const midWordRegex = '[^\\w\\s.!?]*[\\s]+[\\W]*';
-		const afterPhraseRegex = '[^\\s\\w]*(?=\\s)';
-		if (phrase === 'action-oriented') {
-			console.log(phrase.split(' ').join(midWordRegex) + afterPhraseRegex);
-		}
+		const afterPhraseRegex = '[^\\s\\w]*(?=[\\s]*)';
 		const phraseRegex = new RegExp(phrase.split(' ').join(midWordRegex) + afterPhraseRegex, 'gi');
 		const matches = [];
 		let match = phraseRegex.exec(this.document);
@@ -87,6 +114,7 @@ class PhraseState {
 		decoratedWords.forEach((word, index) => {
 			word.id = index;
 			word.classMap = {};
+			word.colors = [];
 			word.classes = ['highlight'];
 			word.phraseWords = [];
 		});
@@ -114,6 +142,8 @@ class PhraseState {
 		const phraseLength = phraseMatch.value.split(/\s+/g).length;
 		const endIndex = startIndex + phraseLength + (-1);
 
+		const focusPhrase = this.focusedWordIndex >= startIndex && this.focusedWordIndex <= endIndex;
+
 		for (let i = startIndex; i <= endIndex; i++) {
 			const currentWord = decoratedWords[i];
 
@@ -122,23 +152,41 @@ class PhraseState {
 			if (i === startIndex) {
 				isEnd = true;
 				currentWord.classMap[phraseMatch.color + '-left'] = true;
+				if (focusPhrase) {
+					currentWord.classMap[phraseMatch.color + '-left-active'] = true;
+				}
 				currentWord.classMap['left'] = true;
 			}
 
 			if (i === endIndex) {
 				isEnd = true;
+				if (focusPhrase) {
+					currentWord.classMap[phraseMatch.color + '-right-active'] = true;
+				}
 				currentWord.classMap[phraseMatch.color + '-right'] = true;
 				currentWord.classMap['right'] = true;
 			}
 
 			if (!isEnd) {
+				if (focusPhrase) {
+					currentWord.classMap[phraseMatch.color + '-mid-active'] = true;
+				}
 				currentWord.classMap[phraseMatch.color + '-mid'] = true;
 			}
 
-			currentWord.phraseIndexes = _.range(startIndex, endIndex);
+			currentWord.colors.push(phraseMatch.color);
 		}
 
+
 		return decoratedWords;
+	}
+
+	handleMouseOver(event, notUsed, reactEvent, wordIndex) {
+		this.focusWord(wordIndex);
+	}
+
+	handleMouseOut(event, notUsed, reactEvent, wordIndex) {
+		this.unfocus();
 	}
 }
 

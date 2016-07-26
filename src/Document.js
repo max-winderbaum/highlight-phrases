@@ -9,11 +9,13 @@ class Document extends Component {
 		super(props);
 		this.phraseState = new PhraseState(props.value);
 		this.state = this.phraseState.getState();
+		this.phraseState.onChange(() => {
+			this.setState(this.phraseState.getState());
+		});
 	}
 
 	componentWillReceiveProps(props) {
 		this.phraseState.setDocument(props.value);
-		this.setState(this.phraseState.getState());
 	}
 
 	render() {

@@ -17,6 +17,7 @@ const phrases = {
 		'aggressive',
 		'arm',
 		'very unlikely',
+		'we do not', // TODO: Testing. Remove this!
 	],
 	purple: [
 		'do not cross',
