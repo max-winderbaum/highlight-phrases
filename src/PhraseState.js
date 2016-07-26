@@ -59,7 +59,9 @@ class PhraseState {
 		let match = wordBeginningRegex.exec(this.document);
 		while (match != null) {
 			words.push({
-				value: match[0].replace(/\s*$/, '').replace('-', '‑'), // Remove ending spaces
+
+				// Replace all but last space with non-breaking space, dash with non-breaking dash
+				value: match[0].replace(/\s(?=\s)/g, '\u00a0').replace(' ', '').replace('-', '‑'),
 				characterIndex: match.index,
 			});
 			match = wordBeginningRegex.exec(this.document);
