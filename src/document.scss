@@ -24,13 +24,13 @@ div.Document {
 		cursor: pointer;
 
 		&.extra-right {
-			padding-right: 6px;
-			margin-right: -3px;
+			padding-right: 8px;
+			margin-right: -5px;
 		}
 
 		&.extra-left {
-			padding-left: 6px;
-			margin-left: -3px;
+			padding-left: 8px;
+			margin-left: -5px;
 		}
 
 		@each $name, $hex in $colors {
